@@ -2,7 +2,7 @@ pipeline{
     environment {
         registry = "mpawson12/vatcal"
         registryCredentials = "mpawson12"
-        dockerImage = ""
+        dockerImage = "vatcal"
     }
     agent any
         stages {
