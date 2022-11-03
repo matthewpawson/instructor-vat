@@ -1,37 +1,36 @@
-pipeline {
-	environment {
-		registry="mpawson12/vatcal"
-		registryCredentials="mpawson12"
-		dockerImage="vatcal"
-	}
-	agent any
-		stages {
-			stage('Build Docker Image'){
-				steps {
-					script {
-						dockerImage = docker.build(registry)
-					}
-				}
-			}
+pipeline{
+    environment {
+        registry = "username/vatcal"
+        registryCredentials = "dockerhub_id"
+        dockerImage = ""
+    }
+    agent any
+        stages {
+            stage ('Build Docker Image'){
+                steps{
+                    script {
+                        dockerImage = docker.build(registry)
+                    }
+                }
+            }
 
-			stage("Push to Docker Hub"){
-				steps {
-					script {
-						docker.withRegistry('', registryCredentials) {
-							dockerImage.push("${env.BUILD_NUMBER}")
-							dockerImage.push("latest")
-						}
-					}
-				}
-			}
+            stage ("Push to Docker Hub"){
+                steps {
+                    script {
+                        docker.withRegistry('', registryCredentials) {
+                            dockerImage.push("${env.BUILD_NUMBER}")
+                            dockerImage.push("latest")
+                        }
+                    }
+                }
+            }
 
-			stage("Clean Up"){
-				steps {
-					script {
-						sh 'docker image prune --all --force --filter "until=48h"'
-					}
-				}
-			}
-		}
-	}
+            stage ("Clean up"){
+                steps {
+                    script {
+                        sh 'docker image prune --all --force --filter "until=48h"'
+                           }
+                }
+            }
+        }
 }
