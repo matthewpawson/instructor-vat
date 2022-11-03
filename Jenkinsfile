@@ -1,6 +1,6 @@
 pipeline {
 	environment {
-		registry="user/vatcal"
+		registry="mpawson12/vatcal"
 		registryCredentials="mpawson12"
 		dockerImage="vatcal"
 	}
